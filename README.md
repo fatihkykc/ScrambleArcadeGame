@@ -1,2 +1,2 @@
-# ScrambleArcadeGame
-Arcade Scramble game made in python
+# ScrambleArcade
+scramble with pygame
