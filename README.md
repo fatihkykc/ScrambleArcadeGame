@@ -1,5 +1,5 @@
 # ScrambleArcade
 Arcade Scramble game made with pygame framework
 
-![Alt text](ScreenShots/full.jpg?raw=true "Title")
+![Alt text](https://raw.githubusercontent.com/fatihkykc/ScrambleArcadeGame/master/ScreenShots/full.png)
 
