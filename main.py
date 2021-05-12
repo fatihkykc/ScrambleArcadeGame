@@ -84,6 +84,7 @@ class SpaceShip(pygame.sprite.Sprite):
 
 class Lives(pygame.sprite.Sprite):
     """karakterin canları"""
+
     def __init__(self, lives=3):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/spaceship.png')
@@ -93,6 +94,7 @@ class Lives(pygame.sprite.Sprite):
 
 class Fuels(pygame.sprite.Sprite):
     """yakıt sınıfı"""
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/fuel.png')
@@ -103,6 +105,7 @@ class Fuels(pygame.sprite.Sprite):
 
 class Shoot(pygame.sprite.Sprite):
     """mermi sınıfı ve hareket fonksiyonu"""
+
     def __init__(self, x, y, width):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/shot.gif')
@@ -120,6 +123,7 @@ class Shoot(pygame.sprite.Sprite):
 
 class Rockets(pygame.sprite.Sprite):
     """karakterin ateşleyebildiği roket sınıfı ve hareket fonksiyonu"""
+
     def __init__(self, x, y, width):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/rocket.png')
@@ -141,6 +145,7 @@ class Rockets(pygame.sprite.Sprite):
 
 class TheEndGame(pygame.sprite.Sprite):
     """oyun sonu için bitiş bayrağı olan taş."""
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/stone.png')
@@ -156,6 +161,7 @@ class TheEndGame(pygame.sprite.Sprite):
 
 class Stone(pygame.sprite.Sprite):
     """mapi oluşturan taş sınıfı"""
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/stone.png')
@@ -166,6 +172,7 @@ class Stone(pygame.sprite.Sprite):
 
 class Enemy1(pygame.sprite.Sprite):
     """1.düşman, 1.25 ve 2.5 arasında rastgele bir hızla ilerler"""
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/enemy1.png')
@@ -176,6 +183,7 @@ class Enemy1(pygame.sprite.Sprite):
 
 class Enemy2(pygame.sprite.Sprite):
     """ateş topu, 2.düşman"""
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/fireball.png')
@@ -186,6 +194,7 @@ class Enemy2(pygame.sprite.Sprite):
 
 class Enemy3(pygame.sprite.Sprite):
     """3.düşman (roket) sınıfı, ve karakter rokete yaklaşınca ateşleme fonksiyonu"""
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/enemy3.png')
@@ -198,7 +207,8 @@ class Enemy3(pygame.sprite.Sprite):
 
 class Space(pygame.sprite.Sprite):
     """arka plandaki uzay fonu ve hareket etme fonksiyonu"""
-    def __init__(self, width=800):
+
+    def __init__(self, width=960):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png('images/space.png')
         self.x = 0
@@ -210,15 +220,34 @@ class Space(pygame.sprite.Sprite):
     def update(self):
         self.rect.center = (self.x, self.y)
         self.x -= self.dx
-        if self.x < -self.width:
+        print(self.x, self.width)
+        if self.x == 0:
             self.reset()
 
     def reset(self):
         self.x = self.width
 
 
+class Background(pygame.sprite.Sprite):
+    def __init__(self, number, *args):
+        self.image, self.rect = load_png('images/space.png')
+        self._layer = -10
+        pygame.sprite.Sprite.__init__(self, *args)
+        self.moved = 0
+        self.number = number
+        self.rect.x = self.rect.width * self.number
+
+    def update(self):
+        self.rect.move_ip(-5, 0)
+        self.moved += 5
+        if self.moved >= self.rect.width:
+            self.rect.x = self.rect.width * self.number
+            self.moved = 0
+
+
 class Explosion(pygame.sprite.Sprite):
     """Patlama sınıfı."""
+
     def __init__(self, center, size):
         pygame.sprite.Sprite.__init__(self)
         self.size = size
@@ -259,6 +288,7 @@ class Explosion(pygame.sprite.Sprite):
 
         return explosion_anim
 
+
 def load_png(name):
     """ Image dosyalarini okumat"""
     fullname = os.path.join('data', name)
@@ -284,5 +314,3 @@ def draw_text(surf, text, size, x, y):
     text_rect = text_surface.get_rect()
     text_rect.midtop = (x, y)
     surf.blit(text_surface, text_rect)
-
-

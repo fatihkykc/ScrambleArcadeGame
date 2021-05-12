@@ -3,12 +3,13 @@ from main import *
 
 class GameObject:
     """Oyun objesi."""
-    def __init__(self, height=1080, width=1920, keepgoing=True, level=1, game_over=False, FPS=60):
+
+    def __init__(self, height=640, width=800, keepgoing=True, level=1, game_over=False, fps=60):
         pygame.init()
         self.white = (255, 255, 255)
         pygame.mixer.init()
         self.currentLevel = level
-        self.fps = FPS
+        self.fps = fps
         self.width = width
         self.height = height
         self.keepgoing = keepgoing
@@ -154,11 +155,12 @@ class GameObject:
     def initSprites(self):
         """Bütün spriteları(düşman,oyuncu,yakıt,roket,taş,patlama,can) aktifleştirir"""
         # Sprites
-        self.space = Space()
+        self.space = Background(0)
+        self.space1 = Background(1)
 
         # sprite groups
         self.explosionSprites = pygame.sprite.Group()
-        self.systemSprites = pygame.sprite.Group(self.space)
+        self.systemSprites = pygame.sprite.Group([self.space, self.space1])
         self.liveSprites = pygame.sprite.Group()
         for i in self.lives:
             self.liveSprites.add(i)
@@ -265,13 +267,13 @@ class GameObject:
             for i in range(50):
                 self.enemy = Enemy1()
                 self.enemy.rect.x = random.randrange(600, 8064)
-                self.enemy.rect.y = random.randrange(0, self.height / 2 + 50)
+                self.enemy.rect.y = random.randrange(0, self.height // 2 + 50)
                 self.enemySprites.add(self.enemy)
         if self.currentLevel == 2 or self.currentLevel == 3:
             for i in range(50):
                 self.enemy2 = Enemy2()
                 self.enemy2.rect.x = random.randrange(600, 8064)
-                self.enemy2.rect.y = random.randrange(0, self.height / 2 + 50)
+                self.enemy2.rect.y = random.randrange(0, self.height // 2 + 50)
                 self.enemySprites.add(self.enemy2)
 
     def clear(self):
@@ -311,4 +313,9 @@ class GameObject:
         draw_text(self.screen, str(self.spaceship.score), 24, self.width - 24, 24)
         draw_text(self.screen, str(self.spaceship.fuel), 24, self.width - 100, 24)
 
-if __name__ == '__main__': GameObject(level=3, FPS=60)
+
+if __name__ == '__main__':
+    # local_dir = os.path.dirname(__file__)
+    # config_path = os.path.join(local_dir, 'network.txt')
+    # run(config_path)
+    GameObject(level=1, fps=60)
